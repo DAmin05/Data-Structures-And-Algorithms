@@ -20,13 +20,14 @@ public class Menu {
 	
         // 2. Instantiate an RUHungry object
         RUHungry rh = new RUHungry();
+        //vora rh = new vora();
 
 	// 3. Call the menu() method to read the menu
         rh.menu("menu.in");
 
         rh.createStockHashTable("stock.in");
 
-        rh.updatePriceAndProfit();
+        //rh.updatePriceAndProfit();
 
         /*StdIn.setFile("order1.in");
         int loopCount = StdIn.readInt(); //getting rid of the input number by reading it.
@@ -58,30 +59,30 @@ public class Menu {
                 rh.restock(ingredientName, quantity);
         }*/
 
-        StdIn.setFile("transaction1.in");
-        int loopCounter = StdIn.readInt();
-        loopCounter = 0;
-        while(StdIn.hasNextLine())
-        {
-                String type = StdIn.readString();
-                StdIn.readChar();
-                int amount = StdIn.readInt();
-                StdIn.readChar();
-                String item = StdIn.readLine();
+        // StdIn.setFile("transaction1.in");
+        // int loopCounter = StdIn.readInt();
+        // loopCounter = 0;
+        // while(StdIn.hasNextLine())
+        // {
+        //         String type = StdIn.readString();
+        //         StdIn.readChar();
+        //         int amount = StdIn.readInt();
+        //         StdIn.readChar();
+        //         String item = StdIn.readLine();
 
-                if(type.equals("order"))
-                {
-                        rh.order(item, amount);
-                }
-                else if(type.equals("donation"))
-                {
-                        rh.donation(item, amount);
-                }
-                else
-                {
-                        rh.restock(item, amount);
-                }
-        }
+        //         if(type.equals("order"))
+        //         {
+        //                 rh.order(item, amount);
+        //         }
+        //         else if(type.equals("donation"))
+        //         {
+        //                 rh.donation(item, amount);
+        //         }
+        //         else
+        //         {
+        //                 rh.restock(item, amount);
+        //         }
+        // }
 
 	// 5. Print restaurant
         rh.printRestaurant();
