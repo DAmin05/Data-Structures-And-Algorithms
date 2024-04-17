@@ -44,33 +44,31 @@ public class Clusters {
     private void createHashMap(String fileName)
     {
         StdIn.setFile(fileName);
-        int a_numDimension = StdIn.readInt();
-        int b_hashSize = StdIn.readInt();
-        double c_threshold = StdIn.readDouble();
+        int nunDimension = StdIn.readInt(); //(a) of the file
+        int hashSize = StdIn.readInt(); //(b) of the file
+        double threshold = StdIn.readDouble(); //(c) of the file
 
-        clusters = new HashMap<>(b_hashSize);
+        clusters = new HashMap<>(hashSize);//hashtable for storing clusters
+        int dimAdded = 0;//counters to keep track of dimensions and clusters
 
-        int dimAdded = 0;
-        
-        for(int i=0 ; i<a_numDimension ; i++)
+        for(int i = 0; i < nunDimension; i++) //go through each dimension
         {
-            int dimension = StdIn.readInt();
-            int canonEvent = StdIn.readInt();
+            int dimensionNum = StdIn.readInt();
+            int numCanonEvents = StdIn.readInt();
             int dimWeight = StdIn.readInt();
-
-            if(!clusters.containsKey(dimension % b_hashSize))
+            
+            if(!clusters.containsKey(dimensionNum % hashSize))
             {
-                clusters.put(dimension % b_hashSize , new ArrayList<>());
+                clusters.put(dimensionNum % hashSize, new ArrayList<>()); //create new cluster if one does not exist 
             }
-            clusters.get(dimension % b_hashSize).add(0 , dimension);
+            clusters.get(dimensionNum % hashSize).add(0, dimensionNum);//add dimension to cluster 
             dimAdded++;
-
-            if((double)dimAdded/clusters.size() >= c_threshold)
-            {   
-                int size = clusters.size()*2;
-                rehashing(size);
+            
+            if(((double) dimAdded / clusters.size()) >= threshold) //rehash if load factor is equal to or more than threshold 
+            {
+                hashSize *=2; //new size of cluster table is doubled 
+                rehashing(hashSize);
             }
-
             connection();
         }
     }
@@ -79,18 +77,18 @@ public class Clusters {
     {
         HashMap<Integer , ArrayList<Integer>> temp = new HashMap<>(size);
         
-        for(ArrayList<Integer> list : clusters.values())
+        for(ArrayList<Integer> list : clusters.values()) //go through clusters in original cluster table
         {
-            for(int dimension : list)
+            for(int dimension : list) //go through dimension in original cluster table
             {
-                if(!temp.containsKey(dimension % size))
+                if(!temp.containsKey(dimension % size)) //create new empty list if hashtable does not contain list 
                 {
-                    temp.put(dimension % size , new ArrayList<>());
+                    temp.put(dimension % size, new ArrayList<>());
                 }
-                temp.get(dimension % size).add(0 , dimension);
+                temp.get(dimension % size).add(0, dimension);
             }
         }
-        clusters.clear();
+        clusters.clear();//clear original cluster table
         clusters.putAll(temp);
     }
 
@@ -101,14 +99,14 @@ public class Clusters {
 
     private void printing(String fileName)
     {
-        //StdOut.setFile(fileName);
+        StdOut.setFile(fileName);
         for(ArrayList<Integer> list : clusters.values())
         {
             for(int dimension : list)
             {
-                System.out.print(dimension + " ");
+                StdOut.print(dimension + " ");
             }
-            System.out.println();
+            StdOut.println();
         }
     }
 }
