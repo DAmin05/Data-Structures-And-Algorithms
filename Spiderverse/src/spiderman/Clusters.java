@@ -69,8 +69,8 @@ public class Clusters {
                 hashSize *=2; //new size of cluster table is doubled 
                 rehashing(hashSize);
             }
-            connection();
         }
+        connection();
     }
 
     private void rehashing(int size)
@@ -94,7 +94,32 @@ public class Clusters {
 
     private void connection()
     {
-        return;
+        for(int i=0 ; i<clusters.size() ; i++)
+        {
+            int connection1 = 0;
+            int connection2 = 0;
+            if(i==0)
+            {
+                connection1 = clusters.get(clusters.size()-1).get(0);
+                connection2 = clusters.get(clusters.size()-2).get(0);
+                clusters.get(i).add(connection1);
+                clusters.get(i).add(connection2);
+            }
+            else if(i==1)
+            {
+                connection1 = clusters.get(i-1).get(0);
+                connection2 = clusters.get(clusters.size()-1).get(0);
+                clusters.get(i).add(connection1);
+                clusters.get(i).add(connection2);
+            }
+            else
+            {
+                connection1 = clusters.get(i-1).get(0);
+                connection2 = clusters.get(i-2).get(0);
+                clusters.get(i).add(connection1);
+                clusters.get(i).add(connection2);
+            }
+        }
     }
 
     private void printing(String fileName)
