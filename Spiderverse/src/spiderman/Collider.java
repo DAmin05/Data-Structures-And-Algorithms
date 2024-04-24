@@ -1,5 +1,6 @@
 package spiderman;
 
+import java.util.*;
 /**
  * Steps to implement this class main method:
  * 
@@ -35,6 +36,10 @@ package spiderman;
 
 public class Collider {
 
+    public Clusters Clusters = new Clusters(); //creating Clusters object to access cluster hashmap
+
+    public HashMap<Integer , ArrayList<Integer>> adjacencyHashMap;
+
     public static void main(String[] args) {
 
         if ( args.length < 3 ) {
@@ -44,6 +49,74 @@ public class Collider {
         }
 
         // WRITE YOUR CODE HERE
-        
+        Collider collider = new Collider();
+        collider.adjacencyList(args[0]);
+        collider.printing(args[2]);
+    }
+
+    public void adjacencyList(String dimensionfile)
+    {
+        Clusters.createHashMap(dimensionfile);//creating HashMap of clusters
+
+        adjacencyHashMap = new HashMap<>();//creating adjacencyList
+
+        for(ArrayList<Integer> clustersArray : Clusters.clusters.values()) //accessing arraylist from the hashmap (clusters file)
+        {
+            for(int dimension : clustersArray)
+            {
+                if(!Clusters.clusters.containsKey(dimension))
+                {
+                    adjacencyHashMap.put(dimension, new ArrayList<Integer>()); //creating hashmap with all dimensions as keys
+                }
+                adjacencyHashMap.get(dimension).add(dimension); //adding dimension at the same dimension key
+            }
+        }
+        connectingDimensions();
+    }
+
+    public void connectingDimensions()
+    {
+        for(ArrayList<Integer> clustersArray : Clusters.clusters.values())
+        {
+            int key = clustersArray.get(0);//accessing the first number of each line in cluster.out i.e. 1024, 65
+            
+            for(int dimension : clustersArray)
+            {
+                if(dimension == key)
+                {
+                    /*
+                    if dimension and key match, then add the full line of clustes.out into the array. 
+                    i.e. 1024 == 1024 then add the full line of 1024, 
+                    excluding 1024 because it was already added to arraylist
+                    This is making connections between d1->d2, d1->d3, d1->d4, etc
+                    */
+                    for(int i=1 ; i<clustersArray.size() ; i++) 
+                    {
+                        adjacencyHashMap.get(dimension).add(clustersArray.get(i));
+                    }
+                }
+                else
+                {
+                    /*
+                    * just add the first dimension of the of arraylist. 
+                    * this is making connections between d2->d1, d3->d1, d4->d1, etc
+                    */
+                    adjacencyHashMap.get(dimension).add(clustersArray.get(0));
+                }
+            }
+        }
+    }
+
+    private void printing(String outputfile)
+    {
+        StdOut.setFile(outputfile);
+        for(ArrayList<Integer> list : adjacencyHashMap.values())
+        {
+            for(int dimension : list)
+            {
+                StdOut.print(dimension + " ");
+            }
+            StdOut.println();
+        }
     }
 }

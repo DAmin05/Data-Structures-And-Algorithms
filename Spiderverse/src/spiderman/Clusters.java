@@ -25,7 +25,7 @@ import java.util.*;
 
 public class Clusters {
 
-    private HashMap<Integer , ArrayList<Integer>> clusters;
+    public HashMap<Integer , ArrayList<Integer>> clusters;
     public static void main(String[] args) {
 
         if ( args.length < 2 ) {
@@ -41,7 +41,7 @@ public class Clusters {
 
     }
 
-    private void createHashMap(String fileName)
+    public void createHashMap(String fileName)
     {
         StdIn.setFile(fileName);
         int nunDimension = StdIn.readInt(); //(a) of the file
