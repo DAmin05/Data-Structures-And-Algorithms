@@ -50,11 +50,11 @@ public class Collider {
 
         // WRITE YOUR CODE HERE
         Collider collider = new Collider();
-        collider.adjacencyList(args[0]);
+        collider.CreateAdjacencyList(args[0]);
         collider.printing(args[2]);
     }
 
-    public void adjacencyList(String dimensionfile)
+    public void CreateAdjacencyList(String dimensionfile)
     {
         Clusters.createHashMap(dimensionfile);//creating HashMap of clusters
 

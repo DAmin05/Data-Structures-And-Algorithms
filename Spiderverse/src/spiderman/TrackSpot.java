@@ -1,5 +1,7 @@
 package spiderman;
 
+import java.util.*;
+
 /**
  * Steps to implement this class main method:
  * 
@@ -41,6 +43,11 @@ package spiderman;
 
 public class TrackSpot {
     
+    public int startDimension;
+    public int finalDim;
+    public HashMap<Integer , ArrayList<Integer>> adjacencyList;
+    public ArrayList<Integer> outputArray = new ArrayList<Integer>();
+
     public static void main(String[] args) {
 
         if ( args.length < 4 ) {
@@ -50,6 +57,60 @@ public class TrackSpot {
         }
 
         // WRITE YOUR CODE HERE
+        String dimensionFile = args[0];
+        String spiderFile = args[1];
+        String spotFile = args[2];
+        String trackspotOut = args[3];
+
+        TrackSpot spot = new TrackSpot();
+
+        StdIn.setFile(spotFile);//reading spot.in
+        spot.startDimension = StdIn.readInt();
+        spot.finalDim = StdIn.readInt();
+
+        spot.accessingCollider(dimensionFile);
+        spot.printing(trackspotOut);
+    }
+
+    public void accessingCollider(String dimensionFile)
+    {
+        Collider collider = new Collider();
+        collider.CreateAdjacencyList(dimensionFile);
+        adjacencyList = collider.adjacencyHashMap;
+        trackSpot(startDimension);
+    }
+
+    public void trackSpot(int currentDim)
+    {
+        outputArray.add(currentDim);
+
+        if(currentDim == finalDim)
+        {
+            return;
+        }
+
+        for(int nextDim : adjacencyList.get(currentDim))
+        {
+            if(!outputArray.contains(nextDim))
+            {
+                trackSpot(nextDim);
+
+                if(outputArray.get(outputArray.size()-1) == finalDim)
+                {
+                    return;
+                }
+            }
+        }
         
+    }
+    
+
+    private void printing(String outputFile)
+    {
+        StdOut.setFile(outputFile);
+        for(int dimensions : outputArray)
+        {
+            StdOut.print(dimensions + " ");
+        }
     }
 }
