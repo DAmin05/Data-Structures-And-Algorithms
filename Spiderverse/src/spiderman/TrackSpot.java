@@ -74,28 +74,28 @@ public class TrackSpot {
 
     public void accessingCollider(String dimensionFile)
     {
-        Collider collider = new Collider();
-        collider.CreateAdjacencyList(dimensionFile);
-        adjacencyList = collider.adjacencyHashMap;
-        trackSpot(startDimension);
+        Collider collider = new Collider(); //creating collider object to access the collider's adjacencyList
+        collider.CreateAdjacencyList(dimensionFile); //using collider object creating collider's adjacencyList
+        adjacencyList = collider.adjacencyHashMap; // setting trackSpot's adjacencyList to collider's adjacencyList
+        trackSpot(startDimension); //depth-first search traversal
     }
 
     public void trackSpot(int currentDim)
     {
-        outputArray.add(currentDim);
+        outputArray.add(currentDim); //keeps track of dimension visited
 
         if(currentDim == finalDim)
         {
-            return;
+            return; //return's if the currentDimension is same as final dimension
         }
 
-        for(int nextDim : adjacencyList.get(currentDim))
+        for(int nextDim : adjacencyList.get(currentDim)) //looping through current dimension's arraylist, to access all other dimension in tht arraylist
         {
-            if(!outputArray.contains(nextDim))
+            if(!outputArray.contains(nextDim)) //if the nextDimension in the arrayList already exist in the outputArray then skip that dimension (nextDim)
             {
-                trackSpot(nextDim);
+                trackSpot(nextDim);//recursion
 
-                if(outputArray.get(outputArray.size()-1) == finalDim)
+                if(outputArray.get(outputArray.size()-1) == finalDim) //if the last element in the outputArray is same as finalDim then break the loop.
                 {
                     return;
                 }
