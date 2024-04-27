@@ -51,6 +51,16 @@ public class CollectAnomalies {
         }
 
         // WRITE YOUR CODE HERE
+        Collider collider = new Collider(); 
+        collider.creatingPerson("spiderverse.in");
         
+        //works
+        // for(Person p : collider.person)
+        // {
+        //     if(p.currentDimension != 928 && p.isAnomaly == true)
+        //     {
+        //         System.out.println(p.name + " " + p.isAnomaly);
+        //     }
+        // }
     }
 }

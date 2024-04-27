@@ -40,6 +40,8 @@ public class Collider {
 
     public HashMap<Integer , ArrayList<Integer>> adjacencyHashMap;
 
+    public Person[] person;
+
     public static void main(String[] args) {
 
         if ( args.length < 3 ) {
@@ -50,8 +52,9 @@ public class Collider {
 
         // WRITE YOUR CODE HERE
         Collider collider = new Collider();
-        collider.CreateAdjacencyList(args[0]);
-        collider.printing(args[2]);
+        collider.CreateAdjacencyList(args[0]); //dimension file
+        collider.creatingPerson(args[1]); //spiderverse.in file
+        collider.printing(args[2]); //output file
     }
 
     public void CreateAdjacencyList(String dimensionfile)
@@ -104,6 +107,33 @@ public class Collider {
                     adjacencyHashMap.get(dimension).add(clustersArray.get(0));
                 }
             }
+        }
+    }
+
+    public void creatingPerson(String spiderverse)
+    {
+        StdIn.setFile(spiderverse);
+        int size = StdIn.readInt();
+
+        person = new Person[size];
+
+        for(int i=0 ; i<person.length ; i++)
+        {
+            int currentDimension = StdIn.readInt();
+            StdIn.readChar();
+            String name = StdIn.readString();
+            StdIn.readChar();
+            int homeDimension = StdIn.readInt();
+
+            boolean isAnomaly = false;
+
+            if(homeDimension != currentDimension)
+            {
+                isAnomaly = true;
+            }
+
+            Person p = new Person(currentDimension, name, homeDimension, isAnomaly);
+            person[i] = p;
         }
     }
 
