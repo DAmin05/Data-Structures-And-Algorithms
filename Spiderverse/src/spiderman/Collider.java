@@ -123,16 +123,9 @@ public class Collider {
             StdIn.readChar();
             String name = StdIn.readString();
             StdIn.readChar();
-            int homeDimension = StdIn.readInt();
+            int signDimension = StdIn.readInt();
 
-            boolean isAnomaly = false;
-
-            if(homeDimension != currentDimension)
-            {
-                isAnomaly = true;
-            }
-
-            Person p = new Person(currentDimension, name, homeDimension, isAnomaly);
+            Person p = new Person(currentDimension, name, signDimension);
             person[i] = p;
         }
     }
