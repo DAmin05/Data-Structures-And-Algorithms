@@ -78,33 +78,34 @@ public class CollectAnomalies {
 
     public void traversal()
     {
-        boolean[] added = new boolean[getMax() + 1];
-        Queue<Integer> queue = new LinkedList<>();
-        HashMap<Integer , Integer> parent = new HashMap<>();
-        queue.add(hub);
-        added[hub] = true;
+        boolean[] DimensionAdded = new boolean[getMax() + 1];
+        Queue<Integer> queueDimension = new LinkedList<>();
+        HashMap<Integer , Integer> parentDimension = new HashMap<>();
 
-        while(!queue.isEmpty())
+        queueDimension.add(hub);
+        DimensionAdded[hub] = true;
+
+        while(!queueDimension.isEmpty())
         {
-            int current = queue.poll();
-            ArrayList<Person> spiderPerson = spider.get(current);
+            int currentDimension = queueDimension.poll();
+            ArrayList<Person> spiderPerson = spider.get(currentDimension);
             
             if(spiderPerson != null)
             {
                 for(Person p : spiderPerson)
                 {
-                    if(p.currentDimension != hub && p.homeDimension != current)
+                    if(p.currentDimension != hub && p.homeDimension != currentDimension)
                     {
-                        ArrayList<Integer> aRoute = bfs(parent , current);
+                        ArrayList<Integer> route = bfs(parentDimension , currentDimension);
 
-                        if(spiderPerson.get(0).homeDimension == current)
+                        if(spiderPerson.get(0).homeDimension == currentDimension)
                         {
-                            ArrayList<Integer> reverse = new ArrayList<>(aRoute);
-                            Collections.reverse(reverse);
+                            ArrayList<Integer> ulta = new ArrayList<>(route); //reverse
+                            Collections.reverse(ulta);
                             String matchingSpider = null;
                             for(Person per : spiderPerson)
                             {
-                                if(per.currentDimension == current)
+                                if(per.currentDimension == currentDimension)
                                 {
                                     matchingSpider = per.name;
                                     break;
@@ -113,47 +114,50 @@ public class CollectAnomalies {
 
                             if(matchingSpider != null)
                             {
-                                path.add(new Path(p.name, matchingSpider, reverse));
+                                Path rasta = new Path(p.name, matchingSpider, ulta);//path
+                                path.add(rasta);
                             }
                         }
 
                         else
                         {
-                            ArrayList<Integer> palidrome = new ArrayList<>(aRoute);
+                            ArrayList<Integer> palidrome = new ArrayList<>(route);
                             for(int i = palidrome.size()-2 ; i>=0 ; i--)
                             {
                                 palidrome.add(palidrome.get(i)); 
                             }
-                            path.add(new Path(p.name , p.name , palidrome));
+                            Path rasta = new Path(p.name , p.name , palidrome);
+                            path.add(rasta);
                         }
                     }
                 }
             }
 
-            ArrayList<Integer> n = adjacentList.get(current);
-            for(int neighbor : n)
+            ArrayList<Integer> arrayDimension = adjacentList.get(currentDimension);
+
+            for(int neighbor : arrayDimension)
             {
-                if(!added[neighbor])
+                if(!DimensionAdded[neighbor])
                 {
-                    added[neighbor] = true;
-                    parent.put(neighbor , current);
-                    queue.add(neighbor);
+                    DimensionAdded[neighbor] = true;
+                    parentDimension.put(neighbor , currentDimension);
+                    queueDimension.add(neighbor);
                 }
             }
         }
     }
 
-    public ArrayList<Integer> bfs(HashMap<Integer , Integer> parent , int end)
+    public ArrayList<Integer> bfs(HashMap<Integer , Integer> parentDimension , int end)
     {
-        ArrayList<Integer> route = new ArrayList<>();
-        while(parent.containsKey(end))
+        ArrayList<Integer> rasta = new ArrayList<>();
+        while(parentDimension.containsKey(end))
         {
-            route.add(end);
-            end = parent.get(end);
+            rasta.add(end);
+            end = parentDimension.get(end);
         }
-        route.add(end);
-        Collections.reverse(route);
-        return route;
+        rasta.add(end);
+        Collections.reverse(rasta);
+        return rasta;
     }
 
     public int getMax()
@@ -177,13 +181,13 @@ public class CollectAnomalies {
     private void printing(String output)
     {
         StdOut.setFile(output);
-        Set<String> duplicates = new HashSet<>();
+        Set<String> humSakal = new HashSet<>();//duplicates
         for(Path p : path)
         {
             String duplicate= p.getAnomalyName();
-            if(!duplicates.contains(duplicate))
+            if(!humSakal.contains(duplicate))
             {
-                duplicates.add(duplicate);
+                humSakal.add(duplicate);
                 StdOut.print(p.toString());
             }
             else
