@@ -69,11 +69,16 @@ public class CollectAnomalies {
         spiderPeople.createSpiderHashMap(args[1]);
         CA.spider = spiderPeople.spider;
 
-        StdIn.setFile(args[2]);
-        CA.hub = StdIn.readInt();
+        CA.readHub(args[2]);
 
         CA.traversal();
         CA.printing(args[3]);
+    }
+
+    public void readHub(String inputfile)
+    {
+        StdIn.setFile(inputfile);
+        hub = StdIn.readInt();
     }
 
     public void traversal()

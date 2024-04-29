@@ -26,6 +26,7 @@ import java.util.*;
 public class Clusters {
 
     public HashMap<Integer , ArrayList<Integer>> clusters;
+
     public static void main(String[] args) {
 
         if ( args.length < 2 ) {
